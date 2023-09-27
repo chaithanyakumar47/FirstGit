@@ -1,11 +1,9 @@
 //Examine Document Object
 //console.dir(document);
+ 
+const items = document.getElementsByClassName('list-group-item');
+items[2].style.backgroundColor = 'green';
 
-let title = document.getElementById('header-title');
-title.innerText = 'Hacked';
-
-title.style.borderBottom = "solid 3px #000";
-
-let containerTitle = document.querySelector('h2');
-containerTitle.style.fontWeight='bold';
-containerTitle.style.color = 'green';
+for(let i=0;i<items.length;i++){
+    items[i].style.fontWeight = 'bold';
+}
