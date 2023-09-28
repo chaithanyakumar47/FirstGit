@@ -24,53 +24,102 @@
 //     oddLi[i].style.backgroundColor = 'green';
 // }
 
-const itemList = document.querySelector('#items');
+// const itemList = document.querySelector('#items');
 
 // itemList.parentNode.style.backgroundColor = 'teal';
 
 // console.log(itemList.parentNode.parentNode);
 
-console.log(itemList.parentElement);
+// console.log(itemList.parentElement);
 
-itemList.parentElement.style.backgroundColor = 'grey';
+// itemList.parentElement.style.backgroundColor = 'grey';
 
-itemList.lastElementChild.style.backgroundColor = 'green';
+// itemList.lastElementChild.style.backgroundColor = 'green';
 
-itemList.lastChild.textContent = 'lastChild';
+// itemList.lastChild.textContent = 'lastChild';
 
-itemList.firstElementChild.textContent = 'firstElementChild';
+// itemList.firstElementChild.textContent = 'firstElementChild';
 
-itemList.firstChild.textContent = 'firstChild';
+// itemList.firstChild.textContent = 'firstChild';
 
-itemList.nextSibling.textContent = 'nextSibling';
+// itemList.nextSibling.textContent = 'nextSibling';
 
-itemList.nextElementSibling.textContent = 'nextElementSibling';
+// itemList.nextElementSibling.textContent = 'nextElementSibling';
 
-itemList.previousSibling.textContent = 'previousSibling';
+// itemList.previousSibling.textContent = 'previousSibling';
 
-itemList.previousElementSibling.textContent = 'previousElementSibling';
+// itemList.previousElementSibling.textContent = 'previousElementSibling';
 
-const newDiv = document.createElement('div');
+// const newDiv = document.createElement('div');
 
-newDiv.className = 'newClass';
+// newDiv.className = 'newClass';
 
-newDiv.setAttribute('title','newTitle');
+// newDiv.setAttribute('title','newTitle');
 
-const newDivText = document.createTextNode('Hello');
+// const newDivText = document.createTextNode('Hello');
 
-newDiv.appendChild(newDivText);
+// newDiv.appendChild(newDivText);
 
-const headContainter = document.querySelector('header .container');
-const h1 = document.querySelector('header h1');
+// const headContainter = document.querySelector('header .container');
+// const h1 = document.querySelector('header h1');
 
-headContainter.insertBefore(newDiv,h1);
+// headContainter.insertBefore(newDiv,h1);
 
-const newDiv2 = document.createElement('div');
+// const newDiv2 = document.createElement('div');
 
-newDiv2.appendChild(newDivText);
+// newDiv2.appendChild(newDivText);
 
-const ulcontainer = document.querySelector('ul');
+// const ulcontainer = document.querySelector('ul');
 
-const li1 = document.querySelector('.list-group-item')
+// const li1 = document.querySelector('.list-group-item')
 
-ulcontainer.insertBefore(newDiv2,li1);
+// ulcontainer.insertBefore(newDiv2,li1);
+
+
+const form = document.getElementById('addForm');
+const itemList = document.getElementById('items');
+const filter = document.getElementById('filter');
+
+form.addEventListener('submit',addItem);
+itemList.addEventListener('click',removeItem);
+filter.addEventListener('keyup',filterItems);
+
+function addItem(e){
+    e.preventDefault();
+    const newItem = document.getElementById('item').value;
+
+    const li = document.createElement('li');
+    li.className = 'list-group-item'
+    li.appendChild(document.createTextNode(newItem));
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'btn btn-danger btn-sm float-right delete'
+    deleteBtn.appendChild(document.createTextNode('X'));
+    li.appendChild(deleteBtn);
+
+    itemList.appendChild(li);
+}
+
+function removeItem(e){
+    if(e.target.classList.contains('delete')){
+        if(confirm('Are you Sure?')){
+            const li = e.target.parentElement;
+            itemList.removeChild(li);
+        }
+    }
+}
+
+function filterItems(e){
+    const text = e.target.value.toLowerCase();
+    
+    const items = itemList.getElementsByTagName('li');
+    Array.from(items).forEach(function(item){
+        const itemName = item.firstChild.textContent;
+        if(itemName.toLowerCase().indexOf(text)!=-1){
+            item.style.display = 'block';
+        } else{
+            item.style.display = 'none';
+
+        }
+    });
+}
