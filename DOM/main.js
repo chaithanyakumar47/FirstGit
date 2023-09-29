@@ -7,6 +7,13 @@ function storeDetails(e){
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
 
-    localStorage.setItem('Name',name);
-    localStorage.setItem('Email',email);
+    const userDetails = {
+        userName: name,
+        userEmail: email
+    };
+
+    const userDetails_serialised = JSON.stringify(userDetails);
+
+    localStorage.setItem('userDetails',userDetails_serialised);
+    
 }
