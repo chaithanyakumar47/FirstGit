@@ -16,23 +16,39 @@ function storeDetails(e){
 
     const userDetails_serialised = JSON.stringify(userDetails);
 
-    localStorage.setItem('userDetails',userDetails_serialised);
+    localStorage.setItem(email,userDetails_serialised);
 
     const div = document.createElement('div');
+    const delBtn = document.createElement('button');
+
     div.setAttribute('id','extra');
+    delBtn.setAttribute('id','delBtn');
+    delBtn.setAttribute('value','Delete');
+    delBtn.innerHTML = 'Delete';
+    delBtn.setAttribute('onclick','delUser()');
     div.appendChild(document.createTextNode(name));
     div.appendChild(document.createTextNode(' - '));
     div.appendChild(document.createTextNode(email));
     div.appendChild(document.createTextNode(' - '));
     div.appendChild(document.createTextNode(phone));
+    div.appendChild(delBtn);
 
     const ul = document.querySelector('ul');
     const section = document.querySelector('.container');
 
     section.insertBefore(div,ul);
-    console.log(userDetails.userEmail.value)
+    
 
 
     
 }
 
+function delUser(){
+    const div = document.getElementById('extra');
+    const section = document.querySelector('.container');
+    section.removeChild(div);
+
+    const email = document.getElementById('email').value;
+    console.log(email);
+    localStorage.removeItem(email);
+}
