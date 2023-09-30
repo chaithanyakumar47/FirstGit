@@ -13,20 +13,20 @@
     </header>
 
     <section class="container">
-      <form id="my-form">
+      <form id="my-form" onsubmit="saveLocal(event)">
         <h1>Add User</h1>
         <div class="msg"></div>
         <div>
           <label for="name">Name:</label>
-          <input type="text" id="name" required>
+          <input type="text" id="name" name="userName" required>
         </div>
         <div>
           <label for="email">Email:</label>
-          <input type="text" id="email" required>
+          <input type="text" id="email" name="userEmail" required>
         </div>
         <div>
             <label for="phone">Phone:</label>
-            <input type="text" id="phone" required>
+            <input type="text" id="phone" name="userPhone" required>
           </div>
         <input class="btn" type="submit" value="Submit">
 
@@ -34,11 +34,7 @@
 
       <ul id="users"></ul>
 
-      <!-- <ul class="items">
-        <li class="item">Item 1</li>
-        <li class="item">Item 2</li>
-        <li class="item">Item 3</li>
-      </ul> -->
+
     </section>
     
 
