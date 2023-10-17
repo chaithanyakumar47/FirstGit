@@ -102,7 +102,13 @@ function showUser(appointmentData){
     deleteBtn.value = 'Delete Expense';
     deleteBtn.setAttribute('class','btn btn-outline-danger');
     deleteBtn.onclick = () => {
-        localStorage.removeItem(expenseDetails.category);
+        //localStorage.removeItem(expenseDetails.category);
+        const id = appointmentData._id
+        url = 'https://crudcrud.com/api/137ed24ef0f04754b21106bd0c378aeb/appointmentData/' + id
+        axios
+        .delete(url)
+        .then(res => console.log(res))
+        .catch(err => console.error(err));
         parent.removeChild(child);
     }
     child.appendChild(editBtn);
