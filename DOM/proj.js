@@ -91,10 +91,18 @@ function showUser(appointmentData){
         const email = document.getElementById('email');
         const phone = document.getElementById('phone');
         
-        expense.value = expenseDetails.amount;
-        description.value = expenseDetails.description;
-        category.value = expenseDetails.category;
-        localStorage.removeItem(expenseDetails.description);
+        name.value = appointmentData.name;
+        email.value = appointmentData.email;
+        phone.value = appointmentData.phone;
+        
+        const id = appointmentData._id
+        url = 'https://crudcrud.com/api/137ed24ef0f04754b21106bd0c378aeb/appointmentData/' + id
+
+        axios
+        .delete(url)
+        .then(res => console.log(res))
+        .catch(err => console.error(err));
+        //localStorage.removeItem(expenseDetails.description);
         parent.removeChild(child);
         
     }
