@@ -1,3 +1,4 @@
+
 // const form = document.getElementById('my-form');
 
 // form.addEventListener('submit',storeDetails);
@@ -59,37 +60,41 @@
 // }
 function saveLocal(event){
     event.preventDefault();
-    const amount = event.target.expense.value;
-    const description = event.target.description.value;
-    const category = event.target.category.value;
+    const name = event.target.name.value;
+    const email = event.target.email.value;
+    const phone = event.target.phone.value;
 
-    const expenseDetails = {
-        amount,
-        description,
-        category
+    const appointmentData = {
+        name,
+        email,
+        phone
     };
-    localStorage.setItem(expenseDetails.category,JSON.stringify(expenseDetails));
-    showUser(expenseDetails);
+    axios
+  .post('https://crudcrud.com/api/137ed24ef0f04754b21106bd0c378aeb/appointmentData',appointmentData)
+  .then(res => showUser(res.data))
+  .catch(err => console.error(err));
+    //localStorage.setItem(expenseDetails.description,JSON.stringify(expenseDetails));
+    //showUser(expenseDetails);
 }
-function showUser(expenseDetails){
+function showUser(appointmentData){
     const parent = document.getElementById('users');
     const child = document.createElement('li');
-    child.textContent = expenseDetails.amount + ' - ' + expenseDetails.description + ' - ' + expenseDetails.category;
+    child.textContent = appointmentData.name + ' - ' + appointmentData.email + ' - ' + appointmentData.phone;
     const deleteBtn = document.createElement('input');
     const editBtn = document.createElement('input');
 
     editBtn.type = 'button';
-    editBtn.value = 'Edit Expense';
+    editBtn.value = 'Edit';
     editBtn.setAttribute('class','btn btn-outline-primary');
     editBtn.onclick = () => {
-        const expense = document.getElementById('expense');
-        const description = document.getElementById('description');
-        const category = document.getElementById('category');
+        const name = document.getElementById('name');
+        const email = document.getElementById('email');
+        const phone = document.getElementById('phone');
         
         expense.value = expenseDetails.amount;
         description.value = expenseDetails.description;
         category.value = expenseDetails.category;
-        localStorage.removeItem(expenseDetails.category);
+        localStorage.removeItem(expenseDetails.description);
         parent.removeChild(child);
         
     }
@@ -105,3 +110,16 @@ function showUser(expenseDetails){
     parent.appendChild(child);
 }
 
+// AXIOS INSTANCES
+
+
+const axiosInstance = axios
+.create({
+    baseURL : 'https://crudcrud.com/api/137ed24ef0f04754b21106bd0c378aeb'
+  });
+
+  axiosInstance.get('/appointmentData').then(res => {
+    for(data in res.data){
+        showUser(res.data[data])
+    }
+  })
