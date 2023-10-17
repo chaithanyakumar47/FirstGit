@@ -110,16 +110,30 @@ function showUser(appointmentData){
     parent.appendChild(child);
 }
 
+window.addEventListener("DOMContentLoaded", () => {
+    axios
+    .get('https://crudcrud.com/api/137ed24ef0f04754b21106bd0c378aeb/appointmentData')
+    .then((res) => {
+        for(var i=0; i<res.data.length; i++){
+            showUser(res.data[i])
+        }
+    })
+    .catch((error) => {
+        console.log(error)
+    })
+})
+
+
 // AXIOS INSTANCES
 
 
-const axiosInstance = axios
-.create({
-    baseURL : 'https://crudcrud.com/api/137ed24ef0f04754b21106bd0c378aeb'
-  });
+// const axiosInstance = axios
+// .create({
+//     baseURL : 'https://crudcrud.com/api/137ed24ef0f04754b21106bd0c378aeb'
+//   });
 
-  axiosInstance.get('/appointmentData').then(res => {
-    for(data in res.data){
-        showUser(res.data[data])
-    }
-  })
+//   axiosInstance.get('/appointmentData').then(res => {
+//     for(data in res.data){
+//         showUser(res.data[data])
+//     }
+//   })
