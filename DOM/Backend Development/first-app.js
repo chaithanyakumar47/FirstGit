@@ -1,13 +1,9 @@
-const add = (a,b) => a + b;
-console.log(add(1,2));
+const http = require('http');
 
-const student = {
-    name: 'Chaithanya',
-    age: 22,
-    gender: 'Male',
-    getDetails(){
-        console.log(`Hi, Iam ${this.name}. Iam a ${this.age} year old ${this.gender} student`)
-    }
-}
 
-student.getDetails();
+
+const server = http.createServer((req, res) => {
+    console.log('Chaithanya');
+});
+
+server.listen(4000);
