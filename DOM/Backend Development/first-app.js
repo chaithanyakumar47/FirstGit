@@ -1,32 +1,54 @@
 const http = require('http');
-
-
+const fs = require('fs');
 
 const server = http.createServer((req, res) => {
-    console.log(req.url, req.method, req.headers);
-    res.setHeader('Content-Type', 'text/html');
-    if(req.url == '/home'){
-        res.write('<html>');
-        res.write('<head><title>My first Page</title></head>');
-        res.write('<body><h1>Welcome home</h1></body>');
-        res.write('</html>');
-    }else if(req.url == '/about'){
-        res.write('<html>');
-        res.write('<head><title>My first Page</title></head>');
-        res.write('<body><h1>Welcome to About Us page</h1></body>');
-        res.write('</html>');
-    }else if(req.url == '/node'){
-        res.write('<html>');
-        res.write('<head><title>My first Page</title></head>');
-        res.write('<body><h1>Welcome to my Node Js project</h1></body>');
-        res.write('</html>');
-    }else{
-        res.write('<html>');
-        res.write('<head><title>My first Page</title></head>');
-        res.write('<body><h1>This is a test response from your Node.js server</h1></body>');
-        res.write('</html>');
-    }
-    res.end();
+  res.setHeader('Content-Type', 'text/html');
+  const url = req.url;
+  const method = req.method;
+
+  if (url === '/') {
+    fs.readFile('message.txt', { encoding: 'utf8' }, (err, data) => {
+      if (err) {
+        console.log(err);
+      }
+
+      console.log('Message received: ' + data);
+
+      res.write('<html>');
+      res.write('<head><title>Enter Message</title></head>');
+      res.write('<body>');
+      res.write(`<p>${data}</p>`);
+      res.write('<form action="/message" method="POST"><input type="text" name="message"><button type="submit">Send</button></form>');
+      res.write('</body>');
+      res.write('</html>');
+      res.end(); 
     });
+  } else if (url === '/message' && method === 'POST') {
+    const body = [];
+    req.on('data', (chunk) => {
+      console.log(chunk);
+      body.push(chunk);
+    });
+
+    req.on('end', () => {
+      const parsedBody = Buffer.concat(body).toString();
+      const message = parsedBody.split('=')[1];
+      fs.writeFile('message.txt', message, (err) => {
+        if (err) {
+          console.log(err);
+        }
+        res.statusCode = 302;
+        res.setHeader('Location', '/');
+        res.end();
+      });
+    });
+  } else {
+    res.write('<html>');
+    res.write('<head><title>My First Page</title></head>');
+    res.write('<body><h1>Hello from my Node.js Server!</h1></body>');
+    res.write('</html>');
+    res.end();
+  }
+});
 
 server.listen(4000);
